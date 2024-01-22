@@ -7,40 +7,43 @@ import Notification from './Feedback/notification/Notification';
 import style from './app.module.css';
 
 const App = () => {
-  const [value, setValue] = useState({
-    good: 0,
-    neutral: 0,
-    bad: 0,
-  });
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
 
-  const { good, neutral, bad } = value;
+  const value = { good, neutral, bad };
 
-  const curentFeedback = option => {
-    setValue(prevValue => {
-      return {
-        ...prevValue,
-        [option]: prevValue[option] + 1,
-      };
-    });
+  const currentFeedback = option => {
+    switch (option) {
+      case 'good':
+        setGood(prevValue => prevValue + 1);
+        break;
+      case 'neutral':
+        setNeutral(prevValue => prevValue + 1);
+        break;
+      case 'bad':
+        setBad(prevValue => prevValue + 1);
+        break;
+    }
   };
 
-  const countTotalFeedback = ({ good, neutral, bad }) => {
+  const countTotalFeedback = () => {
     return good + neutral + bad;
   };
 
-  const countPositiveFeedbackPercentage = (good, total) => {
+  const countPositiveFeedbackPercentage = () => {
     return total === 0 ? 0 : Math.round((good / total) * 100);
   };
 
-  const total = countTotalFeedback(value);
-  const positivePercentage = countPositiveFeedbackPercentage(good, total);
+  const total = countTotalFeedback();
+  const positivePercentage = countPositiveFeedbackPercentage();
 
   return (
     <div className={style.box}>
       <Section title="Please leave feedback">
         <FeedbackOptions
           options={Object.keys(value)}
-          onLeaveFeedback={curentFeedback}
+          onLeaveFeedback={currentFeedback}
         />
       </Section>
       <Section title="Statistics">
