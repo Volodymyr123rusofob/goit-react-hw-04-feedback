@@ -24,6 +24,9 @@ const App = () => {
       case 'bad':
         setBad(prevValue => prevValue + 1);
         break;
+      default:
+        console.error('ERROR: Not case');
+        break;
     }
   };
 
